@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vlad xmlns:vlad="http://www.sapia-oss.org/vlad/rules">
+
+	<!-- ===============================================================================================================
+        ABSTRACT ENTITY
+
+        com.kosoj.entity.AbstractEntity
+    -->
+	<!-- CUSTOM ==================================================================================================== -->
+
+
+	<ruleSet id="checkEntityStatusEnum">
+		<vlad:ifNotEmpty attribute="status">
+			<vlad:codelist attribute="status" id="ENT002.FR" codelist="STATUS">
+				<message value="CODELIST;status;Status is not valid (codelist=${codelist}, value=${value})"/>
+			</vlad:codelist>
+		</vlad:ifNotEmpty>
+	</ruleSet>
+
+</vlad>

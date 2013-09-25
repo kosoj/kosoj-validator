@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vlad xmlns:vlad="http://www.sapia-oss.org/vlad/rules">
+
+	<!-- ===============================================================================================================
+        ABSTRACT ENTITY
+
+        com.kosoj.entity.AbstractEntity
+    -->
+	<ruleSet id="checkAbstractEntity">
+		<!-- attributes -->
+		<ruleSetRef id="checkEntityStatus"/>
+		<!-- custom part -->
+		<ruleSetRef id="checkAbstractEntityExtended"/>
+	</ruleSet>
+
+	<!-- CUSTOM WRAPPER ============================================================================================ -->
+	<ruleSet id="checkAbstractEntityExtended">
+		<!-- DO NOT PUT ANYTHING HERE -->
+	</ruleSet>
+
+
+	<!-- ATTRIBUTES ================================================================================================ -->
+
+
+	<!-- status -->
+	<ruleSet id="checkEntityStatus">
+		<vlad:notEmpty attribute="status" id="ENT001">
+            <message value="MANDATORY;status;Status is mandatory"/>
+        </vlad:notEmpty>
+		<ruleSetRef id="checkEntityStatusEnum" />
+	</ruleSet>
+
+	<ruleSet id="checkEntityStatusEnum">
+		<vlad:ifNotEmpty attribute="status">
+			<vlad:regExPlus attribute="status" id="ENT002" pattern="[A|D]{1}">
+				<message value="INVALID;status;Status is not valid (pattern=${pattern}, value=${value})"/>
+			</vlad:regExPlus>
+		</vlad:ifNotEmpty>
+	</ruleSet>
+
+
+</vlad>

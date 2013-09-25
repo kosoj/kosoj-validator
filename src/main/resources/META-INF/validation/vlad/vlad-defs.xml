@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vlad>
+
+	<namespace prefix="vlad">
+		<!-- conditions -->
+		<ruleDef name="ifNotEmpty" class="com.kosoj.validation.vlad.condition.NotEmptyCondition"/>
+		<ruleDef name="ifEquals" class="com.kosoj.validation.vlad.condition.EqualsCondition"/>
+		<!-- rules -->
+		<ruleDef name="empty" class="com.kosoj.validation.vlad.rule.EmptyRule"/>
+		<ruleDef name="notEmpty" class="com.kosoj.validation.vlad.rule.NotEmptyRule"/>
+		<ruleDef name="regExPlus" class="com.kosoj.validation.vlad.rule.RegExPlusRule"/>
+		<ruleDef name="codelist" class="com.kosoj.validation.vlad.rule.CodeItemRule"/>
+		<ruleDef name="age" class="com.kosoj.validation.vlad.rule.DateAgeRule"/>
+	</namespace>
+
+</vlad>

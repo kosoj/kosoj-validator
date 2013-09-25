@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	<!--
+		MODULE
+	-->
+	<groupId>com.kosoj</groupId>
+    <artifactId>validation</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>KOSOJ Validator</name>
+	<packaging>jar</packaging>
+    <description>TODO: </description>
+    <url>http://note.kosoj.cz/java-vlad-validator</url>
+	<!--
+		PROPERTIES
+	-->
+	<properties>
+        <!--  ENV  -->
+		<java.target>1.6</java.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!--  LIB  -->
+		<version.commons.lang>2.6</version.commons.lang>
+        <version.commons.collections>3.2.1</version.commons.collections>
+		<version.joda-time>2.3</version.joda-time>
+		<version.spring>3.2.4.RELEASE</version.spring>
+		<version.sapia_vlad>2.0</version.sapia_vlad>
+        <version.junit>4.11</version.junit>
+        <version.slf4j>1.7.5</version.slf4j>
+        <version.logback>1.0.13</version.logback>
+    </properties>
+	<!--
+			DEPENDENCIES
+	-->
+	<dependencies>
+		<!-- COMMON -->
+		<dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${version.commons.lang}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${version.commons.collections}</version>
+        </dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${version.joda-time}</version>
+		</dependency>
+		<!-- SPRING -->
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+			<version>${version.spring}</version>
+			<exclusions>
+        		<exclusion>
+            		<artifactId>commons-logging</artifactId>
+            		<groupId>commons-logging</groupId>
+        		</exclusion>
+    		</exclusions>
+        </dependency>
+		<!-- SAPIA -->
+		<dependency>
+			<groupId>org.sapia</groupId>
+			<artifactId>sapia_vlad</artifactId>
+			<version>${version.sapia_vlad}</version>
+		</dependency>
+		<!-- LOG -->
+		<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+		<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+			<version>${version.slf4j}</version>
+        </dependency>
+		<!-- TEST -->
+		<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+			<version>${version.spring}</version>
+			<scope>test</scope>
+        </dependency>
+	</dependencies>
+	
+</project>
