@@ -8,10 +8,10 @@
         <!-- rules -->
         <ruleDef name="empty" class="com.kosoj.validator.vlad.rule.EmptyRule"/>
         <ruleDef name="notEmpty" class="com.kosoj.validator.vlad.rule.NotEmptyRule"/>
-        <ruleDef name="equals" class="com.kosoj.validator.vlad.rule.EqualsRule"/>
         <ruleDef name="regExPlus" class="com.kosoj.validator.vlad.rule.RegExPlusRule"/>
         <ruleDef name="age" class="com.kosoj.validator.vlad.rule.DateAgeRule"/>
-        <ruleDef name="dateInterval" class="com.kosoj.validator.vlad.rule.DateIntervalRule"/>
+
+        <ruleDef name="codelist" class="com.kosoj.validator.dummy.codelist.CodeItemRule"/>
     </namespace>
 
 </vlad>

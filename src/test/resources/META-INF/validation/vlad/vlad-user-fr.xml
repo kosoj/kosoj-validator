@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vlad xmlns:vlad="http://www.sapia-oss.org/vlad/rules">
 
-	<!-- ===============================================================================================================
+    <!-- ===============================================================================================================
         USER
 
-        com.kosoj.entity.User
+        User
     -->
 
-	<!-- CUSTOM WRAPPER ============================================================================================ -->
-	<ruleSet id="checkUserExtended">
-		<ruleSetRef id="checkUserNameFr"/>
-	</ruleSet>
+    <!-- CUSTOM WRAPPER ============================================================================================ -->
+    <ruleSet id="checkUserExtended">
+        <ruleSetRef id="checkUserNameFr"/>
+    </ruleSet>
 
 
-	<!-- CUSTOM ==================================================================================================== -->
+    <!-- CUSTOM ==================================================================================================== -->
 
-	<!-- name -->
-	<ruleSet id="checkUserNameFr">
-		<vlad:mandatory attribute="name" id="USR501.FR">
-            <message value="MANDATORY;name;Name is mandatory"/>
+    <!-- name -->
+    <ruleSet id="checkUserNameFr">
+        <vlad:mandatory attribute="name" id="USR501.FR">
+            <message value="Name is mandatory;MANDATORY;name"/>
         </vlad:mandatory>
-	</ruleSet>
+    </ruleSet>
 
-	<!-- number -->
-	<ruleSet id="checkUserNumber">
-		<vlad:ifNotEmpty attribute="number">
-			<vlad:regExPlus attribute="number" id="USR003.FR" pattern="[0-9]{6}">
-				<message value="INVALID;number;User number is not valid (pattern=${pattern}, value=${value})"/>
-			</vlad:regExPlus>
-		</vlad:ifNotEmpty>
-	</ruleSet>
+    <!-- number -->
+    <ruleSet id="checkUserNumber">
+        <vlad:ifNotEmpty attribute="number">
+            <vlad:regExPlus attribute="number" id="USR003.FR" pattern="[0-9]{6}">
+                <message value="User number is not valid (pattern=${pattern}, value=${value});INVALID;number"/>
+            </vlad:regExPlus>
+        </vlad:ifNotEmpty>
+    </ruleSet>
 
 </vlad>

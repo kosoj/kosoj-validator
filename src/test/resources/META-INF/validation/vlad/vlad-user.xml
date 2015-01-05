@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vlad xmlns:vlad="http://www.sapia-oss.org/vlad/rules">
+
+    <!-- ===============================================================================================================
+        USER
+
+        User
+    -->
+    <ruleSet id="checkUser">
+        <!-- attributes -->
+        <ruleSetRef id="checkUserLogin"/>
+        <ruleSetRef id="checkUserName"/>
+        <ruleSetRef id="checkUserNumber"/>
+        <!-- custom part -->
+        <ruleSetRef id="checkUserExtended"/>
+    </ruleSet>
+
+
+    <!-- CUSTOM WRAPPER ============================================================================================ -->
+    <ruleSet id="checkUserExtended">
+        <!-- DO NOT PUT ANYTHING HERE -->
+    </ruleSet>
+
+
+    <!-- ATTRIBUTES ================================================================================================ -->
+
+    <!-- login -->
+    <ruleSet id="checkUserLogin">
+        <vlad:mandatoryStr attribute="login" id="USR001">
+            <message value="Login is mandatory;MANDATORY;login"/>
+        </vlad:mandatoryStr>
+        <vlad:ifNotEmpty attribute="login">
+            <ruleSet id="checkLogin">
+                <vlad:regExPlus attribute="login" id="USR002" pattern="[a-z]+">
+                    <message value="Login is not valid (pattern=${pattern}, value=${value});INVALID;login"/>
+                </vlad:regExPlus>
+            </ruleSet>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+    <!-- name -->
+    <ruleSet id="checkUserName">
+        <vlad:ifNotEmpty attribute="name">
+            <vlad:select attribute="name">
+                <ruleSetRef id="checkPersonalName" />
+            </vlad:select>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+    <!-- number -->
+    <ruleSet id="checkUserNumber">
+        <vlad:ifNotEmpty attribute="number">
+            <vlad:regExPlus attribute="number" id="USR003" pattern="[A-Z]{2}[0-9]{4}">
+                <message value="User number is not valid (pattern=${pattern}, value=${value});INVALID;number"/>
+            </vlad:regExPlus>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+</vlad>

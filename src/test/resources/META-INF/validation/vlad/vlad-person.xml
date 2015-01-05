@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vlad xmlns:vlad="http://www.sapia-oss.org/vlad/rules">
+
+    <!-- ===============================================================================================================
+        PERSON
+
+        Person
+
+        PER001 - Code is mandatory
+        PER002 - Gender is mandatory
+        PER003 - Name is mandatory
+        PER004 - Male person code is not valid
+        PER005 - Female person code is not valid
+        PER006 - Birth date is mandatory
+        PER007 - Birth date (age) is not valid
+        PER008 - Contacts min size
+    -->
+    <ruleSet id="checkPerson">
+        <!-- parent -->
+        <ruleSetRef id="checkAbstractEntity"/>
+
+        <!-- attributes -->
+        <ruleSetRef id="checkPersonCode"/>
+        <ruleSetRef id="checkPersonGender"/>
+        <ruleSetRef id="checkPersonName"/>
+        <ruleSetRef id="checkPersonBirth"/>
+        <ruleSetRef id="checkPersonContacts"/>
+
+        <!-- custom part -->
+        <ruleSetRef id="checkPersonExtended"/>
+    </ruleSet>
+
+
+    <!-- CUSTOM WRAPPER ============================================================================================ -->
+    <ruleSet id="checkPersonExtended">
+        <!-- DO NOT PUT ANYTHING HERE -->
+    </ruleSet>
+
+
+    <!-- ATTRIBUTES ================================================================================================ -->
+
+    <!-- code -->
+    <ruleSet id="checkPersonCode">
+        <vlad:notEmpty attribute="code" id="PER001">
+            <message value="Person code is mandatory;MANDATORY;code"/>
+        </vlad:notEmpty>
+        <vlad:ifNotEmpty attribute="code">
+            <ruleSetRef id="checkPersonCodeByGender"/>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+    <!-- gender -->
+    <ruleSet id="checkPersonGender">
+        <vlad:mandatory attribute="gender" id="PER002">
+            <message value="Gender is mandatory;MANDATORY;gender"/>
+        </vlad:mandatory>
+    </ruleSet>
+
+    <!-- name -->
+    <ruleSet id="checkPersonName">
+        <vlad:notEmpty attribute="name" id="PER003">
+            <message value="Person name is mandatory;MANDATORY;name"/>
+        </vlad:notEmpty>
+        <vlad:ifNotEmpty attribute="name">
+            <vlad:select attribute="name">
+                <ruleSetRef id="checkPersonalName"/>
+            </vlad:select>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+    <!-- birth -->
+    <ruleSet id="checkPersonBirth">
+        <vlad:notEmpty attribute="birth" id="PER006">
+            <message value="Birth date is mandatory;MANDATORY;birth"/>
+        </vlad:notEmpty>
+        <vlad:ifNotEmpty attribute="birth">
+            <vlad:age attribute="birth" id="PER007" age="18">
+                <message value="Birth date (age) is not valid (type=${type}, age=${age}, value=${value});INVALID;birth"/>
+            </vlad:age>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+    <!-- contacts -->
+    <ruleSet id="checkPersonContacts">
+        <vlad:notEmpty attribute="contacts" id="PER008">
+            <message value="Person has to have at least one contact;MANDATORY;contacts"/>
+        </vlad:notEmpty>
+        <vlad:ifNotEmpty attribute="contacts">
+            <ruleSet id="contact">
+                <vlad:minSize attribute="contacts" size="1" id="PER008">
+                    <message value="Person has to have at least one contact;MIN_SIZE;contacts"/>
+                </vlad:minSize>
+                <vlad:forEach attribute="contacts">
+                     <ruleSet id="checkContact" />
+                </vlad:forEach>
+            </ruleSet>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+    <!-- SPECIAL ================================================================================================ -->
+    <ruleSet id="checkPersonCodeByGender">
+        <vlad:ifEquals attribute="gender" value="MALE">
+            <vlad:regExPlus attribute="code" id="PER004" pattern="^[56789]{2}M[0-9]{4}$">
+                <message value="Person code is not valid (pattern=${pattern}, value=${value});INVALID;code"/>
+            </vlad:regExPlus>
+        </vlad:ifEquals>
+        <vlad:ifEquals attribute="gender" value="FEMALE">
+            <vlad:regExPlus attribute="code" id="PER005" pattern="^[01234]{2}F[0-9]{4}$">
+                <message value="Person code is not valid (pattern=${pattern}, value=${value});INVALID;code"/>
+            </vlad:regExPlus>
+        </vlad:ifEquals>
+    </ruleSet>
+
+</vlad>

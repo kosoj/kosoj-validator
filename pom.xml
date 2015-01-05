@@ -1,101 +1,193 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-	<!--
-		MODULE
-	-->
-	<groupId>com.kosoj</groupId>
-    <artifactId>validation</artifactId>
+
+    <!-- MODULE -->
+    <groupId>com.kosoj</groupId>
+    <artifactId>validator</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>KOSOJ Validator</name>
-	<packaging>jar</packaging>
-    <description>TODO: </description>
-    <url>http://note.kosoj.cz/java-vlad-validator</url>
-	<!--
-		PROPERTIES
-	-->
-	<properties>
-        <!--  ENV  -->
-		<java.target>1.6</java.target>
+    <description>Entity validation with Sapia Vlad framework</description>
+    <url>http://kosoj.cz/java-vlad-validator</url>
+
+
+    <!-- PROPERTIES -->
+    <properties>
+        <!-- COMMON -->
+        <test.unit.skip>false</test.unit.skip>
+        <test.integration.skip>true</test.integration.skip>
+        <!-- ENV -->
+        <java.target>1.6</java.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!--  LIB  -->
-		<version.commons.lang>2.6</version.commons.lang>
-        <version.commons.collections>3.2.1</version.commons.collections>
-		<version.joda-time>2.3</version.joda-time>
-		<version.spring>3.2.4.RELEASE</version.spring>
-		<version.sapia_vlad>2.0</version.sapia_vlad>
-        <version.junit>4.11</version.junit>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- MVN -->
+        <maven.compiler.compilerVersion>${java.target}</maven.compiler.compilerVersion>
+        <maven.compiler.source>${java.target}</maven.compiler.source>
+        <maven.compiler.target>${java.target}</maven.compiler.target>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+        <!-- PLUGINS -->
+        <version.maven-compiler-plugin>3.1</version.maven-compiler-plugin>
+        <version.maven-surefire-plugin>2.11</version.maven-surefire-plugin>
+        <version.maven-failsafe-plugin>2.16</version.maven-failsafe-plugin>
+        <version.maven-source-plugin>2.2.1</version.maven-source-plugin>
+        <!-- LIB -->
+        <version.commons-lang>3.3.2</version.commons-lang>
+        <version.commons-collections>4.0</version.commons-collections>
+        <version.joda-time>2.5</version.joda-time>
+        <version.guava>18.0</version.guava>
+        <version.findbugs>3.0.0</version.findbugs>
+        <version.spring>4.1.1.RELEASE</version.spring>
+        <version.sapia_vlad>2.0</version.sapia_vlad>
+        <!-- LOG -->
         <version.slf4j>1.7.5</version.slf4j>
         <version.logback>1.0.13</version.logback>
+        <!-- TEST -->
+        <version.junit>4.11</version.junit>
     </properties>
-	<!--
-			DEPENDENCIES
-	-->
-	<dependencies>
-		<!-- COMMON -->
-		<dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${version.commons.lang}</version>
+
+
+    <!-- BUILD -->
+    <build>
+        <plugins>
+            <!-- COMPILER -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.maven-compiler-plugin}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <!-- SUREFIRE -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${version.maven-surefire-plugin}</version>
+                <configuration>
+                    <skipTests>${test.unit.skip}</skipTests>
+                    <excludes>
+                        <exclude>**/integration/**</exclude>
+                        <exclude>**/*IntegrationTest*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <!-- FAILSAFE -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${version.maven-failsafe-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>integration-tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>${test.integration.skip}</skipTests>
+                            <includes>
+                                <include>**/integration/**</include>
+                                <include>**/*IntegrationTest*</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- SOURCE -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${version.maven-source-plugin}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <!-- DEPENDENCIES -->
+    <dependencies>
+        <!-- COMMON -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${version.commons-lang}</version>
         </dependency>
         <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>${version.commons.collections}</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${version.commons-collections}</version>
         </dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>${version.joda-time}</version>
-		</dependency>
-		<!-- SPRING -->
-		<dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${version.joda-time}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${version.findbugs}</version>
+        </dependency>
+
+        <!-- SPRING -->
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-			<version>${version.spring}</version>
-			<exclusions>
-        		<exclusion>
-            		<artifactId>commons-logging</artifactId>
-            		<groupId>commons-logging</groupId>
-        		</exclusion>
-    		</exclusions>
+            <version>${version.spring}</version>
+            <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
-		<!-- SAPIA -->
-		<dependency>
-			<groupId>org.sapia</groupId>
-			<artifactId>sapia_vlad</artifactId>
-			<version>${version.sapia_vlad}</version>
-		</dependency>
-		<!-- LOG -->
-		<dependency>
+        <!-- SAPIA -->
+        <dependency>
+            <groupId>org.sapia</groupId>
+            <artifactId>sapia_vlad</artifactId>
+            <version>${version.sapia_vlad}</version>
+        </dependency>
+
+        <!-- LOG -->
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${version.slf4j}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>${version.slf4j}</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>${version.slf4j}</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
-		<dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-			<version>${version.slf4j}</version>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${version.logback}</version>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
-		<!-- TEST -->
-		<dependency>
+
+        <!-- TEST -->
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
-		<dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-			<version>${version.spring}</version>
-			<scope>test</scope>
+            <version>${version.spring}</version>
+            <scope>test</scope>
         </dependency>
-	</dependencies>
-	
+    </dependencies>
+
 </project>

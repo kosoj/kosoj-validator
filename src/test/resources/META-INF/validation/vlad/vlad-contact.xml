@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vlad xmlns:vlad="http://www.sapia-oss.org/vlad/rules">
+
+    <!-- ===============================================================================================================
+        CONTACT
+
+        Contact
+
+        CNT001 - Type is mandatory
+        CNT002 - Type is not valid
+        CNT003 - Value is mandatory
+        CNT004 - Note max length
+        CNT005 - Value max length
+        CNT006 - Invalid phone number
+        CNT007 - Invalid email
+    -->
+    <ruleSet id="checkContact">
+        <!-- attributes -->
+        <ruleSetRef id="checkContactType"/>
+        <ruleSetRef id="checkContactValue"/>
+        <ruleSetRef id="checkContactNote"/>
+        <!-- custom part -->
+        <ruleSetRef id="checkContactExtended"/>
+    </ruleSet>
+
+
+    <!-- CUSTOM WRAPPER ============================================================================================ -->
+    <ruleSet id="checkContactExtended">
+        <!-- DO NOT PUT ANYTHING HERE -->
+    </ruleSet>
+
+
+    <!-- ATTRIBUTES ================================================================================================ -->
+
+    <!-- type -->
+    <ruleSet id="checkContactType">
+        <vlad:mandatoryStr attribute="type" id="CNT001">
+            <message value="Contact type is mandatory;MANDATORY;type"/>
+        </vlad:mandatoryStr>
+        <vlad:ifNotEmpty attribute="type">
+            <vlad:codelist attribute="type" id="CNT002" codelist="CONTACT_TYPE">
+                <message value="Contat type is not valid (codelist=${codelist}, value=${value});CODELIST;type"/>
+            </vlad:codelist>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+    <!-- value -->
+    <ruleSet id="checkContactValue">
+        <vlad:mandatoryStr attribute="value" id="CNT003">
+            <message value="Contact value is mandatory;MANDATORY;value"/>
+        </vlad:mandatoryStr>
+        <vlad:ifNotEmpty attribute="value">
+            <ruleSet id="checkValue">
+                <vlad:maxLen attribute="value" len="50" id="CNT005">
+                    <message value="Contact value cannot be larger then 50 chars;MAX_LENGTH;value"/>
+                </vlad:maxLen>
+                <vlad:ifNotEmpty attribute="type">
+                    <ruleSetRef id="checkContactValueByType"/>
+                </vlad:ifNotEmpty>
+            </ruleSet>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+    <!-- note -->
+    <ruleSet id="checkContactNote">
+        <vlad:ifNotEmpty attribute="note">
+            <vlad:maxLen attribute="note" len="80" id="CNT004">
+                <message value="Note cannot be larger then 80 chars;MAX_LENGTH;not"/>
+            </vlad:maxLen>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+
+    <!-- SPECIAL ================================================================================================ -->
+    <ruleSet id="checkContactValueByType">
+        <vlad:ifEquals attribute="type" value="PHONE">
+            <ruleSetRef id="checkContactValuePhone"/>
+        </vlad:ifEquals>
+        <vlad:ifEquals attribute="type" value="EMAIL">
+            <ruleSetRef id="checkContactValueEmail"/>
+        </vlad:ifEquals>
+    </ruleSet>
+
+    <!-- phone -->
+    <ruleSet id="checkContactValuePhone">
+        <vlad:ifNotEmpty attribute="value">
+            <vlad:regExPlus attribute="value" pattern="[2-9][0-9]{8,10}" id="CNT006">
+                <message value="Contact value is not valid phone number (${value});INVALID;value"/>
+            </vlad:regExPlus>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+    <!-- email -->
+    <ruleSet id="checkContactValueEmail">
+        <vlad:ifNotEmpty attribute="value">
+            <vlad:regExPlus attribute="value" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9]+\.[a-zA-Z.-]{2,6}$" id="CNT007">
+                <message value="Contact value is not valid email (${value});INVALID;value"/>
+            </vlad:regExPlus>
+        </vlad:ifNotEmpty>
+    </ruleSet>
+
+</vlad>
